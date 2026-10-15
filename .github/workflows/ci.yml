@@ -28,5 +28,5 @@ jobs:
       - name: Run automated tests
         run: python -m pytest -v
 
-        - name: Build Docker image
+      - name: Build Docker image
         run: docker build -t devops-task-manager:ci .
