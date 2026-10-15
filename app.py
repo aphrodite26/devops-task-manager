@@ -1,12 +1,9 @@
+
 from flask import Flask, jsonify
+from psycopg.rows import dict_row
+from database import get_db_connection
 
 app = Flask(__name__)
-
-tasks = [
-    {"id": 1, "title": "Configure Docker", "completed": True},
-    {"id": 2, "title": "Write automated tests", "completed": False},
-    {"id": 3, "title": "Set up CI/CD pipeline", "completed": False},
-]
 
 
 @app.route("/")
@@ -19,6 +16,13 @@ def home():
 
 @app.route("/tasks")
 def get_tasks():
+    with get_db_connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute(
+                "SELECT id, title, completed FROM tasks ORDER BY id"
+            )
+            tasks = cur.fetchall()
+
     return jsonify(tasks)
 
 
