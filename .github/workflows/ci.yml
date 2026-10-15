@@ -1,5 +1,9 @@
 name: DevOps Task Manager CI
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   push:
     branches: [main]
@@ -30,3 +34,17 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t devops-task-manager:ci .
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push Docker image
+        if: github.event_name == 'push'
+        run: |
+          docker tag devops-task-manager:ci ghcr.io/aphrodite26/devops-task-manager:latest
+          docker push ghcr.io/aphrodite26/devops-task-manager:latest
