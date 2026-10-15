@@ -18,9 +18,10 @@ def test_home():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json == {
+    assert response.get_json() == {
         "application": "DevOps Task Manager",
-        "status": "running"
+        "status": "running",
+        "version": "2.1"
     }
 
 
