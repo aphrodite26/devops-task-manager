@@ -10,7 +10,8 @@ app = Flask(__name__)
 def home():
     return jsonify({
         "application": "DevOps Task Manager",
-        "status": "running"
+        "status": "running",
+        "version": "2.1"
     })
 
 
