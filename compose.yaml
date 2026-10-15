@@ -1,8 +1,7 @@
 
 services:
   app:
-    build: .
-    image: devops-task-manager:2.0
+    image: ghcr.io/aphrodite26/devops-task-manager:${IMAGE_TAG:-latest}
     ports:
       - "5002:5000"
     environment:
